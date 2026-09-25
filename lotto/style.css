@@ -1,0 +1,765 @@
+/* ==========================================================================
+   NumericAgenda Lotto Lab: Modern Cyber-Glassmorphic Styling
+   ========================================================================== */
+
+:root {
+  --bg-dark: #080c14;
+  --card-bg: rgba(15, 23, 42, 0.75);
+  --card-border: rgba(56, 189, 248, 0.2);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --cyan-glow: #06b6d4;
+  --gold-glow: #f59e0b;
+  --gold-text: #fbbf24;
+  --red-glow: #ef4444;
+  --purple-glow: #a855f7;
+  --green-glow: #10b981;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  padding: 24px 16px;
+}
+
+/* Ambient glow orbs */
+.ambient-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(140px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.18;
+}
+
+.glow-cyan {
+  width: 480px;
+  height: 480px;
+  background: var(--cyan-glow);
+  top: -100px;
+  left: -100px;
+}
+
+.glow-gold {
+  width: 420px;
+  height: 420px;
+  background: var(--gold-glow);
+  top: 30%;
+  right: -80px;
+}
+
+.glow-purple {
+  width: 500px;
+  height: 500px;
+  background: var(--purple-glow);
+  bottom: -150px;
+  left: 20%;
+}
+
+/* Top Back Navigation Link */
+.nav-back-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  background: rgba(15, 23, 42, 0.85);
+  color: #38bdf8;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  font-size: 13px;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.nav-back-btn:hover {
+  background: rgba(56, 189, 248, 0.15);
+  color: #fff;
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+}
+
+/* Main App Container */
+.lotto-app-container {
+  max-width: 1160px;
+  margin: 50px auto 40px;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Header */
+.app-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: #22d3ee;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 8px #22d3ee;
+}
+
+.app-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(26px, 4.5vw, 42px);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #fff;
+}
+
+.highlight-title {
+  background: linear-gradient(135deg, #38bdf8 0%, #f59e0b 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.app-subtitle {
+  color: var(--text-muted);
+  max-width: 680px;
+  font-size: clamp(13px, 1.8vw, 15px);
+}
+
+/* Game Selection Tabs */
+.game-selector-container {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.game-tab-btn {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  padding: 12px 22px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+
+.game-tab-btn:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+  background: rgba(30, 41, 59, 0.85);
+}
+
+.game-tab-btn.active {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.18) 0%, rgba(15, 23, 42, 0.8) 100%);
+  border-color: #38bdf8;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+}
+
+.tab-icon {
+  font-size: 24px;
+}
+
+.tab-text {
+  text-align: left;
+}
+
+.tab-text strong {
+  display: block;
+  font-size: 15px;
+  color: #fff;
+}
+
+.tab-text small {
+  display: block;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* Common Card */
+.generator-card,
+.analytics-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 28px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Generator Section */
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.section-tag {
+  color: #38bdf8;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section-heading {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  color: #fff;
+  margin-top: 2px;
+}
+
+/* Strategy Selector */
+.strategy-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.strategy-btn {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.strategy-btn:hover {
+  background: rgba(30, 41, 59, 0.8);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.strategy-btn.active {
+  background: rgba(245, 158, 11, 0.18);
+  border-color: #f59e0b;
+  color: #fbbf24;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+}
+
+/* Strategy Banner */
+.strategy-banner {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 18px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #cbd5e1;
+  margin-bottom: 26px;
+}
+
+.strategy-banner-icon {
+  font-size: 20px;
+}
+
+/* Balls Display */
+.balls-display-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 0;
+}
+
+.balls-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 3D Realistic Lottery Balls */
+.lotto-ball {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', monospace;
+  font-size: 24px;
+  font-weight: 900;
+  position: relative;
+  cursor: default;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+
+.lotto-ball:hover {
+  transform: translateY(-6px) scale(1.08);
+}
+
+/* Standard White Ball (Pearl Shimmer) */
+.lotto-ball.white-ball {
+  background: radial-gradient(circle at 32% 30%, #ffffff 0%, #e2e8f0 45%, #94a3b8 100%);
+  color: #0f172a;
+  border: 2px solid #cbd5e1;
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.9),
+    0 8px 24px rgba(0, 0, 0, 0.6),
+    0 0 15px rgba(255, 255, 255, 0.15);
+}
+
+/* Mega Ball (Gold Radiant) */
+.lotto-ball.mega-ball {
+  background: radial-gradient(circle at 32% 30%, #fef08a 0%, #f59e0b 50%, #b45309 100%);
+  color: #451a03;
+  border: 2px solid #fde047;
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.8),
+    0 8px 24px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(245, 158, 11, 0.45);
+}
+
+/* Powerball (Blazing Crimson) */
+.lotto-ball.power-ball {
+  background: radial-gradient(circle at 32% 30%, #fca5a5 0%, #ef4444 50%, #991b1b 100%);
+  color: #ffffff;
+  border: 2px solid #f87171;
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.8),
+    0 8px 24px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(239, 68, 68, 0.5);
+}
+
+.ball-special-label {
+  font-size: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: -3px;
+}
+
+/* Generate Button */
+.generate-btn {
+  background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+  border: 1px solid #38bdf8;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.35);
+  transition: all 0.25s ease;
+}
+
+.generate-btn:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #0891b2 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(6, 182, 212, 0.5);
+}
+
+/* Line Metrics Grid */
+.line-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 20px;
+}
+
+.metric-pill {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 10px 14px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metric-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metric-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.status-badge-good {
+  color: #34d399;
+}
+
+/* Analytics Tabs Navigation */
+.analytics-nav {
+  display: flex;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 14px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+
+.analytics-tab-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.analytics-tab-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.analytics-tab-btn.active {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+/* Panels */
+.analytics-panel {
+  display: none;
+}
+
+.analytics-panel.active {
+  display: block;
+}
+
+/* Leaderboards Grid */
+.leaderboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 20px;
+}
+
+.leaderboard-box {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.special-box {
+  border-color: rgba(245, 158, 11, 0.25);
+  background: rgba(20, 24, 38, 0.65);
+}
+
+.box-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.box-subtitle {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 14px;
+}
+
+.stat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.stat-ball-mini {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', monospace;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.mini-white {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.mini-mega {
+  background: #f59e0b;
+  color: #451a03;
+}
+
+.mini-power {
+  background: #ef4444;
+  color: #fff;
+}
+
+.stat-bar-container {
+  flex: 1;
+  margin: 0 12px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  border-radius: 3px;
+}
+
+.stat-bar-fill.special {
+  background: linear-gradient(90deg, #f59e0b, #ec4899);
+}
+
+.stat-count {
+  font-weight: 700;
+  color: #e2e8f0;
+  font-size: 12px;
+}
+
+/* Overdue section */
+.overdue-banner {
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #cbd5e1;
+  margin-bottom: 20px;
+}
+
+.overdue-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* Rules Grid */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.rule-card {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.rule-icon {
+  font-size: 26px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.rule-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.rule-desc {
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.rule-stat {
+  margin-top: 12px;
+  padding: 6px 10px;
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #38bdf8;
+  display: inline-block;
+}
+
+/* History Table */
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.draw-search-input {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.draw-search-input:focus {
+  outline: none;
+  border-color: #38bdf8;
+}
+
+.history-count-badge {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.history-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.history-table th {
+  background: rgba(30, 41, 59, 0.8);
+  color: #cbd5e1;
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.history-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+}
+
+.history-table tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.history-balls-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.tbl-ball {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.tbl-special-mega {
+  background: #f59e0b;
+  color: #451a03;
+}
+
+.tbl-special-power {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.copyright {
+  margin-top: 8px;
+  color: #475569;
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .lotto-ball {
+    width: 52px;
+    height: 52px;
+    font-size: 18px;
+  }
+  .balls-row {
+    gap: 8px;
+  }
+}

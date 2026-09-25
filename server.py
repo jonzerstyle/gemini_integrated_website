@@ -59,10 +59,11 @@ def run(port=8000, directory=None):
 
     with QuietThreadingServer(server_address, handler) as httpd:
         print("=" * 65)
-        print(" 🕹️  Gemini Arcade & pyZerk Integrated Portal")
+        print(" 🕹️  NumericAgenda Integrated Portal & Labs")
         print("=" * 65)
         print(f" Web Portal URL : http://localhost:{port}/")
         print(f" pyZerk Direct  : http://localhost:{port}/pyzerk/")
+        print(f" Lotto Lab      : http://localhost:{port}/lotto/")
         print(f" Serving Root   : {directory}")
         print(f" Server Logs    : {LOG_FILE}")
         print(" Press Ctrl+C to stop.")

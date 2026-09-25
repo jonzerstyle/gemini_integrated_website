@@ -106,6 +106,52 @@
         </div>
       </div>
 
+      <!-- Featured Project 2: Lotto Lab Analytics Showcase Section -->
+      <div class="game-showcase-card lotto-showcase-card">
+        <div class="game-header">
+          <div class="game-tag-row">
+            <span class="game-tag lotto-tag">🎲 NEW PROJECT: PROBABILITY LAB</span>
+            <span class="lotto-stat-pill">4,151 Draws Analyzed</span>
+          </div>
+          <h3 class="game-title">Lotto Lab: Analytics & Strategy Engine</h3>
+          <p class="game-tagline">
+            Empirical data science, frequency heatmaps, and combinatorial number generators for California SuperLotto Plus and Multi-State Powerball.
+          </p>
+        </div>
+
+        <!-- Features Quick Guide -->
+        <div class="controls-badge-row">
+          <span class="control-pill"><kbd>CA SuperLotto</kbd> 2,745 Draws</span>
+          <span class="control-pill"><kbd>Powerball</kbd> 1,406 Draws</span>
+          <span class="control-pill highlight-pill">4 Strategy Engines</span>
+          <span class="control-pill">Anti-Split Optimization</span>
+        </div>
+
+        <div class="tactical-tip">
+          <span class="tip-icon">📊</span>
+          <span><strong>Math Insight:</strong> 65.5% of winning draws follow a balanced 3/2 or 2/3 Odd/Even and Low/High distribution, avoiding the common all-even or birthday-only traps.</span>
+        </div>
+
+        <!-- Primary Launch & Source Buttons -->
+        <div class="launch-actions">
+          <button type="button" class="launch-btn primary-arcade-btn lotto-launch-btn" id="launch-lotto-btn">
+            <svg class="arcade-btn-icon" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>Launch Lotto Lab</span>
+          </button>
+          
+          <a href="lotto/index.html" class="launch-btn secondary-btn" target="_blank" rel="noopener noreferrer">
+            <svg class="arcade-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <span>Open in New Tab</span>
+          </a>
+        </div>
+      </div>
+
       <!-- Support Platform Development & Future Roadmap Section -->
       <div class="support-card" id="support">
         <div class="support-badge">
@@ -276,6 +322,45 @@
           title="pyZerk Web Game"
           allow="autoplay; fullscreen; keyboard"
           sandbox="allow-same-origin allow-scripts allow-pointer-lock"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Lotto Lab Modal Overlay -->
+  <div class="arcade-modal" id="lotto-modal" aria-hidden="true">
+    <div class="arcade-modal-backdrop" id="lotto-modal-backdrop"></div>
+    <div class="arcade-modal-content">
+      <div class="arcade-modal-header">
+        <div class="arcade-modal-title">
+          <span class="game-status-dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span>
+          <span style="color:#a7f3d0;">Lotto Lab Analytics &amp; Strategy</span>
+          <span class="modal-controls-hint">| CA SuperLotto &amp; Powerball Matrix</span>
+        </div>
+        <div class="arcade-modal-controls">
+          <a href="lotto/index.html" target="_blank" rel="noopener noreferrer" class="modal-action-btn" title="Open in dedicated tab">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <span>Full Window</span>
+          </a>
+          <button type="button" class="modal-close-btn" id="close-lotto-modal-btn" aria-label="Close Lotto Lab">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="arcade-iframe-container">
+        <!-- Dynamically loaded on click to prevent background resource consumption -->
+        <iframe 
+          id="lotto-iframe"
+          title="Lotto Lab Analytics & Strategy"
+          allow="fullscreen"
+          sandbox="allow-same-origin allow-scripts"
         ></iframe>
       </div>
     </div>

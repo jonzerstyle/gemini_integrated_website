@@ -486,6 +486,49 @@ body {
   height: 18px;
 }
 
+/* Lotto Lab Project Showcase Styles */
+.lotto-showcase-card {
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 25px rgba(16, 185, 129, 0.08);
+}
+
+.lotto-showcase-card:hover {
+  border-color: rgba(52, 211, 153, 0.65);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 35px rgba(16, 185, 129, 0.22);
+}
+
+.lotto-tag {
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.14);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.lotto-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-family);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #a7f3d0;
+  background: rgba(5, 150, 105, 0.22);
+  border: 1px solid rgba(5, 150, 105, 0.45);
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.lotto-launch-btn {
+  background: linear-gradient(135deg, #059669, #047857);
+  border: 1px solid rgba(110, 231, 183, 0.4);
+  box-shadow: 0 4px 20px rgba(5, 150, 105, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.lotto-launch-btn:hover {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-color: rgba(167, 243, 208, 0.6);
+  box-shadow: 0 8px 30px rgba(5, 150, 105, 0.65), 0 0 15px rgba(52, 211, 153, 0.4);
+}
+
 /* ==========================================================================
    Support Platform Development Section
    ========================================================================== */

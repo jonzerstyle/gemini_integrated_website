@@ -149,8 +149,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Close with Escape key
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
-      closeArcade();
+    if (e.key === 'Escape') {
+      if (modal && modal.classList.contains('active')) {
+        closeArcade();
+      }
+      if (lottoModal && lottoModal.classList.contains('active')) {
+        closeLottoLab();
+      }
     }
   });
+
+  // 5. Interactive Lotto Lab Modal
+  const launchLottoBtn = document.getElementById('launch-lotto-btn');
+  const lottoModal = document.getElementById('lotto-modal');
+  const lottoModalBackdrop = document.getElementById('lotto-modal-backdrop');
+  const closeLottoModalBtn = document.getElementById('close-lotto-modal-btn');
+  const lottoIframe = document.getElementById('lotto-iframe');
+
+  function openLottoLab() {
+    if (!lottoModal || !lottoIframe) return;
+
+    if (!lottoIframe.src || lottoIframe.src === 'about:blank') {
+      lottoIframe.src = 'lotto/index.html';
+    }
+
+    lottoModal.classList.add('active');
+    lottoModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    setTimeout(() => {
+      lottoIframe.focus();
+    }, 300);
+  }
+
+  function closeLottoLab() {
+    if (!lottoModal || !lottoIframe) return;
+    lottoModal.classList.remove('active');
+    lottoModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+
+    setTimeout(() => {
+      lottoIframe.src = 'about:blank';
+    }, 300);
+  }
+
+  if (launchLottoBtn) {
+    launchLottoBtn.addEventListener('click', openLottoLab);
+  }
+
+  if (closeLottoModalBtn) {
+    closeLottoModalBtn.addEventListener('click', closeLottoLab);
+  }
+
+  if (lottoModalBackdrop) {
+    lottoModalBackdrop.addEventListener('click', closeLottoLab);
+  }
 });

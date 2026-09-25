@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lotto Lab & Analytics Engine | NumericAgenda</title>
+  <link rel="icon" type="image/png" href="../pyzerk/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="ambient-glow glow-cyan"></div>
+  <div class="ambient-glow glow-gold"></div>
+  <div class="ambient-glow glow-purple"></div>
+
+  <!-- Top Portal Navigation Link -->
+  <a href="../index.html" class="nav-back-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Return to Portal
+  </a>
+
+  <main class="lotto-app-container">
+    <!-- Header Section -->
+    <header class="app-header">
+      <div class="header-badge">
+        <span class="badge-dot"></span>
+        <span>EMPIRICAL LOTTERY INTELLIGENCE</span>
+      </div>
+      <h1 class="app-title">NUMERICAGENDA <span class="highlight-title">LOTTO LAB</span></h1>
+      <p class="app-subtitle">
+        Mathematical probability analysis, historical frequency leaderboards, and data-backed combination engines derived from over 4,100 verified drawings.
+      </p>
+
+      <!-- Game Selection Tabs -->
+      <div class="game-selector-container">
+        <button type="button" class="game-tab-btn active" id="btn-tab-superlotto" data-game="superlotto">
+          <span class="tab-icon">🌴</span>
+          <div class="tab-text">
+            <strong>CA SuperLotto Plus</strong>
+            <small>5 of 47 + 1 of 27 Mega (2,745 Draws)</small>
+          </div>
+        </button>
+
+        <button type="button" class="game-tab-btn" id="btn-tab-powerball" data-game="powerball">
+          <span class="tab-icon">⚡</span>
+          <div class="tab-text">
+            <strong>Powerball</strong>
+            <small>5 of 69 + 1 of 26 Red (1,406 Draws)</small>
+          </div>
+        </button>
+      </div>
+    </header>
+
+    <!-- Generator & Recommended Picks Section -->
+    <section class="generator-card">
+      <div class="card-header-row">
+        <div class="section-title-wrap">
+          <span class="section-tag">STRATEGY ENGINE</span>
+          <h2 class="section-heading" id="generator-heading">SuperLotto Plus Pick Generator</h2>
+        </div>
+
+        <!-- Strategy Pill Selector -->
+        <div class="strategy-selector" id="strategy-selector">
+          <button type="button" class="strategy-btn active" data-strategy="hybrid" title="The Golden Balance: Mix of top hot balls and overdue momentum in ideal 3/2 split">
+            🌟 Optimal Hybrid
+          </button>
+          <button type="button" class="strategy-btn" data-strategy="heat" title="Maximum historical hit frequency">
+            🔥 All-Time Heat
+          </button>
+          <button type="button" class="strategy-btn" data-strategy="overdue" title="Statistical mean-reversion on dormant numbers">
+            ⏳ Law of Averages
+          </button>
+          <button type="button" class="strategy-btn" data-strategy="antisplit" title="Avoids birthday 1-31 bias to maximize unshared jackpot equity">
+            🛡️ Anti-Split
+          </button>
+        </div>
+      </div>
+
+      <!-- Strategy Explanation Banner -->
+      <div class="strategy-banner" id="strategy-banner">
+        <span class="strategy-banner-icon">🎯</span>
+        <span id="strategy-desc">The Optimal Balanced Hybrid blends all-time winning numbers with overdue momentum, matching the 65% odd/even and low/high sweet spot.</span>
+      </div>
+
+      <!-- Animated Number Balls Display -->
+      <div class="balls-display-container">
+        <div class="balls-row" id="balls-row">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <button type="button" class="generate-btn" id="generate-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+          <span>Generate New Line</span>
+        </button>
+      </div>
+
+      <!-- Metrics Breakdown for Current Line -->
+      <div class="line-metrics-grid" id="line-metrics-grid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- Deep Analytics Dashboard Section -->
+    <section class="analytics-card">
+      <div class="analytics-nav">
+        <button type="button" class="analytics-tab-btn active" data-section="leaderboard">🔥 Frequency Leaderboards</button>
+        <button type="button" class="analytics-tab-btn" data-section="overdue">⏳ Overdue Drought Tracker</button>
+        <button type="button" class="analytics-tab-btn" data-section="combinatorics">📐 Mathematical Laws</button>
+        <button type="button" class="analytics-tab-btn" data-section="history">📜 Draw History Archive</button>
+      </div>
+
+      <!-- Tab Content 1: Frequency Leaderboards -->
+      <div class="analytics-panel active" id="panel-leaderboard">
+        <div class="leaderboard-grid">
+          <div class="leaderboard-box">
+            <h3 class="box-title">🔥 Top 10 Hottest White Balls</h3>
+            <p class="box-subtitle">Most drawn numbers in game history</p>
+            <div class="stat-list" id="hot-balls-list"></div>
+          </div>
+
+          <div class="leaderboard-box">
+            <h3 class="box-title">🧊 Top 10 Coldest White Balls</h3>
+            <p class="box-subtitle">Least drawn numbers in game history</p>
+            <div class="stat-list" id="cold-balls-list"></div>
+          </div>
+
+          <div class="leaderboard-box special-box">
+            <h3 class="box-title" id="special-ball-title">⭐ Special Ball Rankings</h3>
+            <p class="box-subtitle" id="special-ball-subtitle">Mega Ball frequencies & ranks</p>
+            <div class="stat-list" id="special-balls-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 2: Overdue Tracker -->
+      <div class="analytics-panel" id="panel-overdue">
+        <div class="overdue-container">
+          <div class="overdue-banner">
+            <strong>Statistical Mean-Reversion:</strong> Every number has an equal theoretical probability on every draw. When a number experiences an extended drought (20–50+ drawings), its gap significantly exceeds the average cycle, making it mathematically primed for return.
+          </div>
+          <div class="overdue-grid">
+            <div class="leaderboard-box">
+              <h3 class="box-title">⏳ Top 10 Most Overdue White Balls</h3>
+              <div class="stat-list" id="overdue-balls-list"></div>
+            </div>
+            <div class="leaderboard-box special-box">
+              <h3 class="box-title" id="overdue-special-title">⏳ Top 5 Most Overdue Special Balls</h3>
+              <div class="stat-list" id="overdue-specials-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content 3: Combinatorial Laws -->
+      <div class="analytics-panel" id="panel-combinatorics">
+        <div class="rules-grid" id="rules-grid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Tab Content 4: History Archive -->
+      <div class="analytics-panel" id="panel-history">
+        <div class="table-controls">
+          <input type="text" id="draw-search" class="draw-search-input" placeholder="Search draw history by date or number...">
+          <span class="history-count-badge" id="history-count-badge">Showing last 50 draws</span>
+        </div>
+        <div class="history-table-wrap">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Winning Numbers</th>
+                <th id="th-special">Mega</th>
+                <th>Jackpot / Prize</th>
+              </tr>
+            </thead>
+            <tbody id="history-tbody">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p>
+        <strong>Disclaimer:</strong> NumericAgenda Lotto Lab is an independent mathematical research and analytics application for educational and recreational purposes only. It is not affiliated with, endorsed by, or sponsored by the California State Lottery, the Multi-State Lottery Association (MUSL), or Powerball. All lottery drawings are independent random events. Please play responsibly.
+      </p>
+      <p class="copyright">
+        © 2026 NumericAgenda. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="lotto_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -29,12 +29,18 @@ gemini_integrated_website/
 │   ├── index-0.9.3-cp312.json
 │   └── cp312/
 │       └── pygame_ce-2.5.7-cp312-cp312-wasm32_bi_emscripten.whl
-└── pyzerk/                # Embedded pyZerk WebAssembly game suite
-    ├── index.html         # Fullscreen WASM runner with portal return link & controls HUD
-    ├── pyzerk.apk         # Compiled game package (Python source, audio & image assets)
-    ├── favicon.png        # Retro arcade icon
-    ├── server.py          # Standalone pyZerk arcade test server
-    └── cdn/               # Local wheel cache for standalone pyZerk runner
+├── pyzerk/                # Embedded pyZerk WebAssembly game suite
+│   ├── index.html         # Fullscreen WASM runner with portal return link & controls HUD
+│   ├── pyzerk.apk         # Compiled game package (Python source, audio & image assets)
+│   ├── favicon.png        # Retro arcade icon
+│   ├── server.py          # Standalone pyZerk arcade test server
+│   └── cdn/               # Local wheel cache for standalone pyZerk runner
+└── lotto/                 # Lotto Lab empirical probability & analytics web application
+    ├── index.html         # Lotto Lab UI (tabs, game selector, strategy engines, tables)
+    ├── style.css          # Glassmorphism styling, glowing orbs, 3D number balls
+    ├── app.js             # Generator logic, metric calculations, history search
+    ├── lotto_data.js      # Pre-compiled statistical payload (window.LOTTO_DATA)
+    └── lotto_data.json    # Machine-readable statistical payload
 ```
 
 ---
@@ -58,7 +64,19 @@ gemini_integrated_website/
   * For full immersion, clicking **"Open in New Tab"** opens the dedicated full-screen runner.
   * Features a floating **"← Return to Portal"** navigation button and a quick-reference controls pill HUD.
 
-### 3. Production Apache & GoDaddy Linux cPanel Setup
+### 3. Lotto Lab Empirical Probability Engine (`lotto/`)
+* **Mathematical Core**:
+  * Ingests 4,151 verified drawings across two lottery matrices: California SuperLotto Plus (2,745 draws since 2000) and Powerball (1,406 draws under the modern 5/69 + 1/26 matrix since 2015).
+  * **Zero-Latency Client-Side Delivery**: All frequency distributions, overdue gaps, and last 50 draws are pre-compiled into `lotto_data.js` (`window.LOTTO_DATA`), enabling instant rendering without API dependencies, database round-trips, or CORS constraints.
+* **4 Algorithmic Combination Strategies**:
+  * **Optimal Hybrid**: Combines top historical performers with overdue momentum numbers, strictly targeting the golden 3/2 or 2/3 odd/even and low/high balance that accounts for 65.5% of winning draws.
+  * **All-Time Heat**: Selects exclusively from the highest-frequency white and special balls.
+  * **Law of Averages (Mean-Reversion)**: Targets dormant balls whose drawing gap significantly exceeds their theoretical return interval.
+  * **Anti-Split Strategy**: Avoids the common 1–31 birthday calendar clustering trap, mathematically minimizing the probability of having to split a winning jackpot.
+* **Dual Integration**:
+  * Accessible directly on the main portal via the `#lotto-modal` overlay or as a standalone responsive web application at [`/lotto/`](file:///home/mjones/agy/gemini_integrated_website/lotto/index.html).
+
+### 4. Production Apache & GoDaddy Linux cPanel Setup
 * **Automatic HTTPS Redirection**:
   * Enforced via `.htaccess` mod_rewrite rules: any insecure request is permanently redirected to `https://%{HTTP_HOST}%{REQUEST_URI}`.
 * **Crucial Binary MIME Types**:
@@ -99,6 +117,13 @@ gemini_integrated_website/
 ### 5. Git Repository Tracking
 * Created `.gitignore` excluding Python caches, OS files, and archive bundles.
 * Linked and pushed to GitHub repository: [`https://github.com/jonzerstyle/gemini_integrated_website.git`](https://github.com/jonzerstyle/gemini_integrated_website.git) (branch `main`).
+
+### 6. Lotto Lab Project Deployment & Integration
+* Built standalone Lotto Lab application (`lotto/index.html`, `style.css`, `app.js`, `lotto_data.js`).
+* Integrated featured showcase project card into main portal (`index.html`) with 4,151 draws analyzed badge.
+* Wired up interactive modal launcher (`#lotto-modal`) and Escape key listeners in `script.js`.
+* Added glowing emerald/cyan project card and button styling in `style.css`.
+* Re-packaged GoDaddy production distribution archive [`numericagenda_godaddy_deploy.zip`](file:///home/mjones/agy/numericagenda_godaddy_deploy.zip).
 
 ---
 
