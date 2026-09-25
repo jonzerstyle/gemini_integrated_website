@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>numericagenda | WebAssembly Arcade & Innovation Platform</title>
+  <meta name="description" content="numericagenda - Classic arcade gaming and web tools running natively in the browser via WebAssembly.">
+
+  <!-- Google Fonts: Inter & Orbitron for Arcade flair -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="pyzerk/favicon.png">
+</head>
+<body>
+  <!-- Ambient Glowing Background Accents -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <main class="page-container">
+    <section class="card">
+      <!-- Animated Web Banner: numericagenda Binary Pull-In -->
+      <div class="banner-container" id="banner-container" title="Click to replay animation">
+        <img src="numericagenda_banner.gif" alt="numericagenda animated binary banner" class="animated-banner-img" id="banner-gif">
+      </div>
+
+      <!-- Status Badge -->
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span class="status-text">numericagenda.com Online</span>
+      </div>
+
+      <!-- Brand / Logo -->
+      <div class="brand">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+          <line x1="6" y1="12" x2="10" y2="12"></line>
+          <line x1="8" y1="10" x2="8" y2="14"></line>
+          <circle cx="15" cy="11" r="1"></circle>
+          <circle cx="18" cy="13" r="1"></circle>
+        </svg>
+        <h1 class="brand-title">numericagenda</h1>
+      </div>
+
+      <!-- Main Headline & Subtitle -->
+      <h2 class="headline">Retro Gaming Reborn in the Browser</h2>
+      <p class="description">
+        Powered by modern WebAssembly and Python 3. Experience classic arcade action running natively with zero installation required.
+      </p>
+
+      <!-- Featured Game Showcase Section -->
+      <div class="game-showcase-card">
+        <div class="game-header">
+          <div class="game-tag-row">
+            <span class="game-tag">⚡ FEATURED LAUNCH</span>
+            <a href="https://github.com/jonzerstyle/pyZerk" target="_blank" rel="noopener noreferrer" class="github-repo-badge" title="View pyZerk Source on GitHub">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              <span>GitHub: jonzerstyle/pyZerk</span>
+            </a>
+          </div>
+          <h3 class="game-title">pyZerk: Web Edition</h3>
+          <p class="game-tagline">
+            Escape the electrified maze, blast rogue combat droids, and outrun the indestructible Otto in this faithful Berzerk revival.
+          </p>
+        </div>
+
+        <!-- Controls Quick Guide -->
+        <div class="controls-badge-row">
+          <span class="control-pill"><kbd>↑↓←→</kbd> Move</span>
+          <span class="control-pill highlight-pill"><kbd>CTRL</kbd> + <kbd>Direction</kbd> Stand Ground & Fire</span>
+          <span class="control-pill"><kbd>ENTER</kbd> Fullscreen</span>
+        </div>
+
+        <div class="tactical-tip">
+          <span class="tip-icon">💡</span>
+          <span><strong>Combat Tip:</strong> Hold the <kbd>CTRL</kbd> key to stand your ground and fire in the direction chosen without moving into electrified walls.</span>
+        </div>
+
+        <!-- Primary Launch & Source Buttons -->
+        <div class="launch-actions">
+          <button type="button" class="launch-btn primary-arcade-btn" id="launch-game-btn">
+            <svg class="arcade-btn-icon" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>Launch pyZerk Arcade</span>
+          </button>
+          
+          <a href="pyzerk/index.html" class="launch-btn secondary-btn" target="_blank" rel="noopener noreferrer">
+            <svg class="arcade-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <span>Open in New Tab</span>
+          </a>
+
+          <a href="https://github.com/jonzerstyle/pyZerk" class="launch-btn tertiary-btn" target="_blank" rel="noopener noreferrer" title="View Source on GitHub">
+            <svg class="arcade-btn-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            <span>GitHub Repository</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Support Platform Development & Future Roadmap Section -->
+      <div class="support-card" id="support">
+        <div class="support-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span>BUILDING THE FUTURE</span>
+        </div>
+        <h3 class="support-title">Support Platform Development</h3>
+        <p class="support-description">
+          We are actively building out this web ecosystem with new interactive web apps, developer utilities, creative tools, and arcade experiences. Your support keeps the servers fast, ad-free, and continuously updated.
+        </p>
+
+        <!-- Development Pipeline / Upcoming Roadmap -->
+        <div class="roadmap-grid">
+          <div class="roadmap-item">
+            <span class="roadmap-icon">🛠️</span>
+            <div class="roadmap-text">
+              <strong>Web Utilities & Tools</strong>
+              <small>Productivity & developer widgets</small>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <span class="roadmap-icon">🤖</span>
+            <div class="roadmap-text">
+              <strong>AI & Interactive Apps</strong>
+              <small>Experimental browser-based tools</small>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <span class="roadmap-icon">🕹️</span>
+            <div class="roadmap-text">
+              <strong>Expanded Arcade Lab</strong>
+              <small>More WebAssembly games & ports</small>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <span class="roadmap-icon">⚡</span>
+            <div class="roadmap-text">
+              <strong>Open Source & APIs</strong>
+              <small>Community resources & templates</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Support Tier Actions -->
+        <div class="support-actions">
+          <a href="https://ko-fi.com/jonzerstyle" target="_blank" rel="noopener noreferrer" class="support-btn primary-support-btn" id="coffee-link">
+            <svg class="coffee-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
+            </svg>
+            <span>Support on Ko-fi</span>
+          </a>
+        </div>
+        <div class="support-note">
+          <span>Direct & secure contributions via Ko-fi • Keeps the platform fast & ad-free</span>
+        </div>
+      </div>
+
+      <!-- Tournament / Event Countdown Timer -->
+      <div class="countdown-section">
+        <div class="countdown-title">Next High Score Tournament Cycle Ends In</div>
+        <div class="countdown-wrapper" id="countdown-wrapper">
+          <div class="time-box">
+            <span class="time-num" id="days">00</span>
+            <span class="time-label">Days</span>
+          </div>
+          <div class="time-separator">:</div>
+          <div class="time-box">
+            <span class="time-num" id="hours">00</span>
+            <span class="time-label">Hours</span>
+          </div>
+          <div class="time-separator">:</div>
+          <div class="time-box">
+            <span class="time-num" id="minutes">00</span>
+            <span class="time-label">Minutes</span>
+          </div>
+          <div class="time-separator">:</div>
+          <div class="time-box">
+            <span class="time-num" id="seconds">00</span>
+            <span class="time-label">Seconds</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notify / Newsletter Form -->
+      <form class="subscribe-form" id="notify-form">
+        <div class="input-group">
+          <input 
+            type="email" 
+            id="email-input" 
+            placeholder="Enter your email for game updates" 
+            required 
+            autocomplete="email"
+          >
+          <button type="submit" class="submit-btn" id="submit-btn">
+            <span>Notify Me</span>
+            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+        <p class="form-message" id="form-message"></p>
+      </form>
+
+      <!-- Direct Contact info -->
+      <div class="contact-info">
+        <span>Have questions or high score reports?</span>
+        <a href="mailto:contact@numericagenda.com" class="contact-link">contact@numericagenda.com</a>
+      </div>
+
+      <!-- Social & Supporter Links -->
+      <div class="social-links">
+        <a href="https://ko-fi.com/jonzerstyle" target="_blank" rel="noopener noreferrer" aria-label="Support on Ko-fi" class="social-btn ko-fi-social" title="Support on Ko-fi">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M23.881 8.948c-.02-.275-.246-.49-.525-.49h-3.415v-1.1c0-1.654-1.346-3-3-3H4.059c-1.654 0-3 1.346-3 3v8.5c0 1.654 1.346 3 3 3h8.315c2.395 0 4.492-1.42 5.438-3.486l2.106-.211c2.197-.22 3.963-2.029 3.963-4.237v-1.976c0-.332-.236-.628-.567-.674l-.433-.066zm-5.94 4.39c-.58 1.488-2.022 2.51-3.69 2.51H4.059c-.551 0-1-.449-1-1v-8.5c0-.551.449-1 1-1h12.882c.551 0 1 .449 1 1v7zm4-4.414c0 1.139-.909 2.073-2.046 2.187l-1.954.195V8.458h2.083c.96 0 1.76.71 1.917 1.65l.006.016z"/>
+          </svg>
+        </a>
+        <a href="https://github.com/jonzerstyle/pyZerk" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository" class="social-btn" title="GitHub Repository">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Twitter / X" class="social-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>&copy; <span id="current-year"></span> numericagenda. All rights reserved.</p>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Interactive Arcade Modal Overlay -->
+  <div class="arcade-modal" id="arcade-modal" aria-hidden="true">
+    <div class="arcade-modal-backdrop" id="modal-backdrop"></div>
+    <div class="arcade-modal-content">
+      <div class="arcade-modal-header">
+        <div class="arcade-modal-title">
+          <span class="game-status-dot"></span>
+          <span>pyZerk Arcade</span>
+          <span class="modal-controls-hint">| Hold <kbd>CTRL</kbd> + Arrows to Stand Ground & Fire</span>
+        </div>
+        <div class="arcade-modal-controls">
+          <a href="pyzerk/index.html" target="_blank" rel="noopener noreferrer" class="modal-action-btn" title="Open in dedicated tab">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <span>Full Window</span>
+          </a>
+          <button type="button" class="modal-close-btn" id="close-modal-btn" aria-label="Close Arcade">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="arcade-iframe-container">
+        <!-- The iframe is dynamically loaded upon click to prevent CPU usage when modal is closed -->
+        <iframe 
+          id="game-iframe"
+          title="pyZerk Web Game"
+          allow="autoplay; fullscreen; keyboard"
+          sandbox="allow-same-origin allow-scripts allow-pointer-lock"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Quick Support Badge -->
+  <a href="#support" class="floating-support-btn" id="floating-support-btn" title="Support New Platform Development">
+    <span class="support-heart">❤️</span>
+    <span class="floating-support-text">Support Development</span>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+# Proxy & Cloudflare-Aware HTTPS Redirection (prevents ERR_TOO_MANY_REDIRECTS)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteCond %{HTTP:CF-Visitor} !'"scheme":"https"'
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Ensure correct MIME types for WebAssembly & Arcade assets
+AddType application/wasm .wasm
+AddType application/vnd.android.package-archive .apk
+AddType application/x-tar .tar.gz
+AddType audio/ogg .ogg
+AddType application/octet-stream .whl
+AddType application/json .json
+
+# Allow Cross-Origin Requests for Pygame WebAssembly assets
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
+# Enable Compression for text/assets where supported
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
