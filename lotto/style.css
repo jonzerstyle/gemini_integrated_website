@@ -213,6 +213,193 @@ body {
   color: #94a3b8;
 }
 
+/* 80s Retro Arcade Intel Terminal Box */
+.arcade-intel-box {
+  background: rgba(8, 14, 26, 0.85);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(16, 185, 129, 0.05);
+  backdrop-filter: blur(16px);
+  text-align: left;
+}
+
+.intel-header {
+  background: rgba(2, 6, 23, 0.95);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.intel-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.crt-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+  animation: pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.intel-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #a7f3d0;
+}
+
+.intel-tag {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.intel-body {
+  padding: 20px 22px;
+}
+
+.intel-mission {
+  color: #cbd5e1;
+  font-size: 13.5px;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+.intel-mission strong {
+  color: #facc15;
+}
+
+.intel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.intel-card {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 16px;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.intel-card:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.intel-badge {
+  display: inline-block;
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  font-weight: 800;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.intel-card h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.intel-card p {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #94a3b8;
+}
+
+.featured-recs-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 18px;
+}
+
+.rec-card-retro {
+  background: rgba(2, 6, 23, 0.7);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.rec-game-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #f59e0b;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.rec-balls-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.ball-retro {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #cbd5e1 55%, #64748b 100%);
+  color: #0f172a;
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), inset 0 2px 2px rgba(255, 255, 255, 0.8);
+}
+
+.ball-retro.mega-retro {
+  background: radial-gradient(circle at 35% 35%, #fde047 0%, #eab308 55%, #854d0e 100%);
+  color: #422006;
+  box-shadow: 0 0 12px rgba(234, 179, 8, 0.5);
+}
+
+.ball-retro.power-retro {
+  background: radial-gradient(circle at 35% 35%, #fca5a5 0%, #ef4444 55%, #991b1b 100%);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.6);
+}
+
+.rec-rationale {
+  font-size: 11.5px;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
 /* Common Card */
 .generator-card,
 .analytics-card {

@@ -529,6 +529,116 @@ body {
   box-shadow: 0 8px 30px rgba(5, 150, 105, 0.65), 0 0 15px rgba(52, 211, 153, 0.4);
 }
 
+/* 80s Retro Arcade Picks Box on Portal */
+.lotto-recs-box {
+  background: rgba(6, 14, 26, 0.85);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  border-radius: var(--radius-sm);
+  margin: 0 auto 20px;
+  max-width: 680px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(16, 185, 129, 0.06);
+  text-align: left;
+}
+
+.recs-header {
+  background: rgba(2, 6, 23, 0.95);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.recs-blinker {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse-dot 1.5s infinite;
+}
+
+.recs-title {
+  font-family: var(--font-arcade);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #a7f3d0;
+}
+
+.recs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  padding: 14px;
+}
+
+.rec-item {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rec-game-tag {
+  font-family: var(--font-arcade);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #f59e0b;
+  letter-spacing: 0.04em;
+}
+
+.rec-ball-strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.portal-ball {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #cbd5e1 55%, #64748b 100%);
+  color: #0f172a;
+  font-family: var(--font-arcade);
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.portal-ball.portal-mega {
+  background: radial-gradient(circle at 35% 35%, #fde047 0%, #eab308 55%, #854d0e 100%);
+  color: #422006;
+  box-shadow: 0 0 10px rgba(234, 179, 8, 0.6);
+}
+
+.portal-ball.portal-power {
+  background: radial-gradient(circle at 35% 35%, #fca5a5 0%, #ef4444 55%, #991b1b 100%);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+.rec-logic-tag {
+  font-family: var(--font-family);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.02em;
+}
+
+.lotto-tactical-tip {
+  border-color: rgba(16, 185, 129, 0.3);
+  max-width: 680px;
+}
+
 /* ==========================================================================
    Support Platform Development Section
    ========================================================================== */
