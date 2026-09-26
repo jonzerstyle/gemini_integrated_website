@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2.1">
+  <link rel="stylesheet" href="style.css?v=2.2">
 </head>
 <body>
   <!-- Ambient background glow elements -->
@@ -161,14 +161,20 @@
           <!-- Rendered dynamically -->
         </div>
 
-        <button type="button" class="generate-btn" id="generate-btn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 4 23 10 17 10"></polyline>
-            <polyline points="1 20 1 14 7 14"></polyline>
-            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-          </svg>
-          <span>Generate New Line</span>
-        </button>
+        <div class="generator-btn-group">
+          <button type="button" class="generate-btn" id="generate-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+            <span>Generate New Line</span>
+          </button>
+          <button type="button" class="generate-sync-btn refresh-analysis-btn" id="refresh-analysis-btn-generator" title="Check official feeds for latest lottery drawings">
+            <span class="btn-refresh-icon">🔄</span>
+            <span class="btn-refresh-text">SYNC LATEST DRAWS</span>
+          </button>
+        </div>
       </div>
 
       <!-- Metrics Breakdown for Current Line -->
@@ -271,7 +277,7 @@
     </div>
   </footer>
 
-  <script src="lotto_data.js?v=2.1"></script>
-  <script src="app.js?v=2.1"></script>
+  <script src="lotto_data.js?v=2.2"></script>
+  <script src="app.js?v=2.2"></script>
 </body>
 </html>

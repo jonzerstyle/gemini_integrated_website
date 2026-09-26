@@ -1,6 +1,12 @@
 # Proxy & Cloudflare-Aware HTTPS Redirection (prevents ERR_TOO_MANY_REDIRECTS)
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Force trailing slash on directories via HTTPS before mod_dir issues insecure HTTP redirects
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1/ [L,R=301]
+
   RewriteCond %{HTTPS} off
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteCond %{HTTP:CF-Visitor} !'"scheme":"https"'
@@ -15,9 +21,16 @@ AddType audio/ogg .ogg
 AddType application/octet-stream .whl
 AddType application/json .json
 
-# Allow Cross-Origin Requests for Pygame WebAssembly assets
+# Allow Cross-Origin Requests & Control Cache Headers
 <IfModule mod_headers.c>
   Header set Access-Control-Allow-Origin "*"
+
+  # Prevent browser caching of HTML entry points so updates deploy immediately
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
 </IfModule>
 
 # Enable Compression for text/assets where supported

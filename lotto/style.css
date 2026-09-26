@@ -694,6 +694,20 @@ body {
   box-shadow: 0 6px 25px rgba(6, 182, 212, 0.5);
 }
 
+.generator-btn-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.generate-sync-btn {
+  font-size: 13.5px !important;
+  padding: 11px 20px !important;
+  border-radius: 12px !important;
+}
+
 /* Line Metrics Grid */
 .line-metrics-grid {
   display: grid;

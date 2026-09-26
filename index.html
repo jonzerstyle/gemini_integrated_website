@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css?v=2.1">
+  <link rel="stylesheet" href="style.css?v=2.2">
   <link rel="icon" type="image/png" href="pyzerk/favicon.png">
 </head>
 <body>
@@ -182,7 +182,7 @@
             <span>Launch Lotto Lab</span>
           </button>
           
-          <a href="lotto/index.html" class="launch-btn secondary-btn" target="_blank" rel="noopener noreferrer">
+          <a href="lotto/index.html" class="launch-btn secondary-btn" id="open-lotto-tab-btn" target="_blank" rel="noopener noreferrer">
             <svg class="arcade-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
               <polyline points="15 3 21 3 21 9"></polyline>
@@ -401,7 +401,7 @@
           id="lotto-iframe"
           title="Lotto Lab Analytics & Strategy"
           allow="fullscreen"
-          sandbox="allow-same-origin allow-scripts"
+          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
         ></iframe>
       </div>
     </div>
@@ -413,7 +413,7 @@
     <span class="floating-support-text">Support Development</span>
   </a>
 
-  <script src="lotto/lotto_data.js?v=2.1"></script>
-  <script src="script.js?v=2.1"></script>
+  <script src="lotto/lotto_data.js?v=2.2"></script>
+  <script src="script.js?v=2.2"></script>
 </body>
 </html>

@@ -154,10 +154,44 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setupRefreshButton() {
-    if (!refreshBtn) return;
+    const refreshBtns = document.querySelectorAll('.refresh-analysis-btn');
+    if (!refreshBtns.length) return;
 
     const COOLDOWN_MS = 60000; // 60s client cooldown
     const STORAGE_KEY = 'lotto_lab_last_sync';
+
+    function setButtonsState(disabled, loading, icon, text) {
+      refreshBtns.forEach(btn => {
+        btn.disabled = disabled;
+        if (loading) {
+          btn.classList.add('loading');
+        } else {
+          btn.classList.remove('loading');
+        }
+        const iconSpan = btn.querySelector('.btn-refresh-icon');
+        const textSpan = btn.querySelector('.btn-refresh-text');
+        if (iconSpan && icon) iconSpan.textContent = icon;
+        if (textSpan && text) textSpan.textContent = text;
+      });
+    }
+
+    let cooldownInterval = null;
+    function startCooldownTimer(seconds) {
+      if (cooldownInterval) clearInterval(cooldownInterval);
+      setButtonsState(true, false, '⏳', `COOLDOWN (${seconds}s)`);
+
+      let remaining = seconds;
+      cooldownInterval = setInterval(() => {
+        remaining--;
+        if (remaining <= 0) {
+          clearInterval(cooldownInterval);
+          cooldownInterval = null;
+          setButtonsState(false, false, '🔄', 'SYNC LATEST DRAWS');
+        } else {
+          setButtonsState(true, false, '⏳', `COOLDOWN (${remaining}s)`);
+        }
+      }, 1000);
+    }
 
     function checkExistingCooldown() {
       const lastSync = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
@@ -167,36 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    let cooldownInterval = null;
-    function startCooldownTimer(seconds) {
-      if (cooldownInterval) clearInterval(cooldownInterval);
-      refreshBtn.disabled = true;
-      refreshBtn.classList.remove('loading');
-
-      const iconSpan = refreshBtn.querySelector('.btn-refresh-icon');
-      const textSpan = refreshBtn.querySelector('.btn-refresh-text');
-      if (iconSpan) iconSpan.textContent = '⏳';
-
-      let remaining = seconds;
-      if (textSpan) textSpan.textContent = `COOLDOWN (${remaining}s)`;
-
-      cooldownInterval = setInterval(() => {
-        remaining--;
-        if (remaining <= 0) {
-          clearInterval(cooldownInterval);
-          cooldownInterval = null;
-          refreshBtn.disabled = false;
-          if (iconSpan) iconSpan.textContent = '🔄';
-          if (textSpan) textSpan.textContent = 'SYNC LATEST DRAWS';
-        } else {
-          if (textSpan) textSpan.textContent = `COOLDOWN (${remaining}s)`;
-        }
-      }, 1000);
-    }
-
-    refreshBtn.addEventListener('click', async () => {
-      if (refreshBtn.disabled) return;
-
+    async function triggerSync() {
       const lastSync = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
       const elapsed = Date.now() - lastSync;
       if (elapsed < COOLDOWN_MS) {
@@ -204,13 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      refreshBtn.disabled = true;
-      refreshBtn.classList.add('loading');
-      const iconSpan = refreshBtn.querySelector('.btn-refresh-icon');
-      const textSpan = refreshBtn.querySelector('.btn-refresh-text');
-      if (iconSpan) iconSpan.textContent = '🔄';
-      if (textSpan) textSpan.textContent = 'CHECKING FEEDS...';
-
+      setButtonsState(true, true, '🔄', 'CHECKING FEEDS...');
       showToast('📡 Connecting to official lottery data feeds (CA SuperLotto & Powerball)...', 'info', 0);
 
       try {
@@ -263,11 +262,16 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         console.error('Lotto sync error:', err);
         showToast(`❌ Connection error: ${err.message || 'Could not reach sync endpoint.'}`, 'error', 8000);
-        refreshBtn.disabled = false;
-        refreshBtn.classList.remove('loading');
-        if (iconSpan) iconSpan.textContent = '🔄';
-        if (textSpan) textSpan.textContent = 'SYNC LATEST DRAWS';
+        setButtonsState(false, false, '🔄', 'SYNC LATEST DRAWS');
       }
+    }
+
+    refreshBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (btn.disabled) return;
+        triggerSync();
+      });
     });
 
     checkExistingCooldown();

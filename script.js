@@ -205,6 +205,22 @@ document.addEventListener('DOMContentLoaded', () => {
     lottoModalBackdrop.addEventListener('click', closeLottoLab);
   }
 
+  const openLottoTabBtn = document.getElementById('open-lotto-tab-btn');
+  if (openLottoTabBtn) {
+    openLottoTabBtn.addEventListener('click', (e) => {
+      try {
+        const win = window.open('lotto/index.html', '_blank');
+        if (!win || win.closed || typeof win.closed === 'undefined') {
+          // If popup is blocked by browser settings, navigate directly
+          window.location.href = 'lotto/index.html';
+        }
+        e.preventDefault();
+      } catch (err) {
+        // Fallback to native link navigation
+      }
+    });
+  }
+
   // 6. Dynamic Lotto Showcase Card Status & Matrix Run Timestamp
   function formatPacificTime(dateObj = new Date()) {
     try {
