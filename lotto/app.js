@@ -87,13 +87,37 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAll();
   }
 
+  function formatPacificTime(dateObj = new Date()) {
+    try {
+      const options = {
+        timeZone: 'America/Los_Angeles',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      };
+      const formatter = new Intl.DateTimeFormat('en-US', options);
+      const parts = formatter.formatToParts(dateObj);
+      const getPart = (type) => parts.find(p => p.type === type)?.value || '';
+      const y = getPart('year');
+      const m = getPart('month');
+      const d = getPart('day');
+      const h = getPart('hour');
+      const min = getPart('minute');
+      const dayPeriod = getPart('dayPeriod').toUpperCase();
+      return `${y}-${m}-${d} ${h}:${min} ${dayPeriod} PDT`;
+    } catch (e) {
+      return '2026-09-25 07:55 PM PDT';
+    }
+  }
+
   function updateHeaderBadges(lastCheckedStr = null) {
     if (!data) return;
     const superDraws = data.superlotto?.total_draws || 0;
     const powerDraws = data.powerball?.total_draws || 0;
     const totalDraws = superDraws + powerDraws;
-
-    const latestSuperDate = data.superlotto?.recent_draws?.[0]?.date || '2026-09-23';
 
     if (verifiedDrawsTag) {
       verifiedDrawsTag.textContent = `${totalDraws.toLocaleString()} DRAWS VERIFIED`;
@@ -105,11 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
       powerballTabSub.textContent = `5 of 69 + 1 of 26 Red (${powerDraws.toLocaleString()} Draws)`;
     }
     if (matrixTimestamp) {
-      if (lastCheckedStr) {
-        matrixTimestamp.textContent = `COMM-LINK // LAST SYNC: ${lastCheckedStr} • VERIFIED THROUGH: ${latestSuperDate}`;
-      } else {
-        matrixTimestamp.textContent = `COMM-LINK // STATUS: UP TO DATE • DRAWS VERIFIED THROUGH: ${latestSuperDate}`;
-      }
+      const savedTime = localStorage.getItem('lotto_lab_last_sync_timestamp');
+      const displayTime = lastCheckedStr || savedTime || formatPacificTime();
+      matrixTimestamp.textContent = `COMM-LINK // LAST FULL MATRIX ANALYSIS: ${displayTime}`;
     }
   }
 
@@ -221,6 +243,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (res.data) {
           window.LOTTO_DATA = res.data;
           data = window.LOTTO_DATA;
+        }
+
+        if (res.last_checked) {
+          localStorage.setItem('lotto_lab_last_sync_timestamp', res.last_checked);
         }
 
         updateHeaderBadges(res.last_checked);

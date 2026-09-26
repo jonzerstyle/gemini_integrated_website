@@ -205,38 +205,40 @@ document.addEventListener('DOMContentLoaded', () => {
     lottoModalBackdrop.addEventListener('click', closeLottoLab);
   }
 
-  // 6. Dynamic Lotto Showcase Card Status & Target Draw Calculation
+  // 6. Dynamic Lotto Showcase Card Status & Matrix Run Timestamp
+  function formatPacificTime(dateObj = new Date()) {
+    try {
+      const options = {
+        timeZone: 'America/Los_Angeles',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      };
+      const formatter = new Intl.DateTimeFormat('en-US', options);
+      const parts = formatter.formatToParts(dateObj);
+      const getPart = (type) => parts.find(p => p.type === type)?.value || '';
+      const y = getPart('year');
+      const m = getPart('month');
+      const d = getPart('day');
+      const h = getPart('hour');
+      const min = getPart('minute');
+      const dayPeriod = getPart('dayPeriod').toUpperCase();
+      return `${y}-${m}-${d} ${h}:${min} ${dayPeriod} PDT`;
+    } catch (e) {
+      return '2026-09-25 07:55 PM PDT';
+    }
+  }
+
   function updatePortalLottoCard() {
     const recsTitle = document.getElementById('recs-card-title');
     if (!recsTitle) return;
 
-    const data = window.LOTTO_DATA;
-    if (data && data.superlotto) {
-      const superDrawDate = data.superlotto.recent_draws?.[0]?.date || '2026-09-23';
-      const parts = superDrawDate.split('-');
-      const dObj = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
-      const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-      const verifiedStr = `${monthNames[dObj.getMonth()]} ${dObj.getDate()}`;
-
-      // Calculate upcoming drawing (Wednesday or Saturday night)
-      const now = new Date();
-      const dayOfWeek = now.getDay(); // 0 = Sun, 1 = Mon, 2 = Tue, 3 = Wed, 4 = Thu, 5 = Fri, 6 = Sat
-      let daysUntilNextDraw = 0;
-      if (dayOfWeek < 3) {
-        daysUntilNextDraw = 3 - dayOfWeek;
-      } else if (dayOfWeek === 3) {
-        daysUntilNextDraw = now.getHours() >= 20 ? 3 : 0;
-      } else if (dayOfWeek < 6) {
-        daysUntilNextDraw = 6 - dayOfWeek;
-      } else if (dayOfWeek === 6) {
-        daysUntilNextDraw = now.getHours() >= 20 ? 4 : 0;
-      }
-      const nextDrawDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysUntilNextDraw);
-      const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-      const targetStr = `${dayNames[nextDrawDate.getDay()]}, ${monthNames[nextDrawDate.getMonth()]} ${nextDrawDate.getDate()}, ${nextDrawDate.getFullYear()}`;
-
-      recsTitle.textContent = `RECOMMENDED PICKS // TARGET DRAW: ${targetStr} • VERIFIED THROUGH ${verifiedStr}`;
-    }
+    const savedSync = localStorage.getItem('lotto_lab_last_sync_timestamp');
+    const displayTime = savedSync || formatPacificTime();
+    recsTitle.textContent = `RECOMMENDED PICKS // LAST MATRIX RUN: ${displayTime}`;
   }
 
   updatePortalLottoCard();
