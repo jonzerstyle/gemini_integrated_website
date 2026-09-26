@@ -12,3 +12,8 @@ ehthumbs.db
 *.zip
 *.tar.gz
 *.bak
+
+# Runtime lock files
+.*_lock
+.refresh_lock
+.process_lock

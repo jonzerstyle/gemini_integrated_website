@@ -4,7 +4,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  const data = window.LOTTO_DATA;
+  let data = window.LOTTO_DATA;
   if (!data) {
     console.error('Lotto data not loaded!');
     return;
@@ -67,12 +67,178 @@ document.addEventListener('DOMContentLoaded', () => {
   const analyticsPanels = document.querySelectorAll('.analytics-panel');
   const drawSearch = document.getElementById('draw-search');
 
+  // Refresh & Header Elements
+  const refreshBtn = document.getElementById('refresh-analysis-btn');
+  const refreshToast = document.getElementById('refresh-status-toast');
+  const matrixTimestamp = document.getElementById('matrix-timestamp');
+  const verifiedDrawsTag = document.getElementById('verified-draws-tag');
+  const superlottoTabSub = document.getElementById('superlotto-tab-sub');
+  const powerballTabSub = document.getElementById('powerball-tab-sub');
+
+  let toastTimer = null;
+
   function init() {
     setupGameSwitcher();
     setupStrategyButtons();
     setupAnalyticsNavigation();
     setupSearch();
+    setupRefreshButton();
+    updateHeaderBadges();
     renderAll();
+  }
+
+  function updateHeaderBadges(lastCheckedStr = null) {
+    if (!data) return;
+    const superDraws = data.superlotto?.total_draws || 0;
+    const powerDraws = data.powerball?.total_draws || 0;
+    const totalDraws = superDraws + powerDraws;
+
+    if (verifiedDrawsTag) {
+      verifiedDrawsTag.textContent = `${totalDraws.toLocaleString()} DRAWS VERIFIED`;
+    }
+    if (superlottoTabSub) {
+      superlottoTabSub.textContent = `5 of 47 + 1 of 27 Mega (${superDraws.toLocaleString()} Draws)`;
+    }
+    if (powerballTabSub) {
+      powerballTabSub.textContent = `5 of 69 + 1 of 26 Red (${powerDraws.toLocaleString()} Draws)`;
+    }
+    if (lastCheckedStr && matrixTimestamp) {
+      matrixTimestamp.textContent = `COMM-LINK // LAST FULL MATRIX ANALYSIS: ${lastCheckedStr}`;
+    }
+  }
+
+  function showToast(message, type = 'info', duration = 8000) {
+    if (!refreshToast) return;
+    if (toastTimer) clearTimeout(toastTimer);
+
+    refreshToast.className = `refresh-status-toast ${type}`;
+    refreshToast.innerHTML = `
+      <span>${message}</span>
+      <button type="button" style="background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;font-weight:bold;margin-left:12px;" onclick="this.parentElement.style.display='none'">✕</button>
+    `;
+    refreshToast.style.display = 'flex';
+
+    if (duration > 0) {
+      toastTimer = setTimeout(() => {
+        refreshToast.style.display = 'none';
+      }, duration);
+    }
+  }
+
+  function setupRefreshButton() {
+    if (!refreshBtn) return;
+
+    const COOLDOWN_MS = 60000; // 60s client cooldown
+    const STORAGE_KEY = 'lotto_lab_last_sync';
+
+    function checkExistingCooldown() {
+      const lastSync = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+      const elapsed = Date.now() - lastSync;
+      if (elapsed < COOLDOWN_MS) {
+        startCooldownTimer(Math.ceil((COOLDOWN_MS - elapsed) / 1000));
+      }
+    }
+
+    let cooldownInterval = null;
+    function startCooldownTimer(seconds) {
+      if (cooldownInterval) clearInterval(cooldownInterval);
+      refreshBtn.disabled = true;
+      refreshBtn.classList.remove('loading');
+
+      const iconSpan = refreshBtn.querySelector('.btn-refresh-icon');
+      const textSpan = refreshBtn.querySelector('.btn-refresh-text');
+      if (iconSpan) iconSpan.textContent = '⏳';
+
+      let remaining = seconds;
+      if (textSpan) textSpan.textContent = `COOLDOWN (${remaining}s)`;
+
+      cooldownInterval = setInterval(() => {
+        remaining--;
+        if (remaining <= 0) {
+          clearInterval(cooldownInterval);
+          cooldownInterval = null;
+          refreshBtn.disabled = false;
+          if (iconSpan) iconSpan.textContent = '🔄';
+          if (textSpan) textSpan.textContent = 'SYNC LATEST DRAWS';
+        } else {
+          if (textSpan) textSpan.textContent = `COOLDOWN (${remaining}s)`;
+        }
+      }, 1000);
+    }
+
+    refreshBtn.addEventListener('click', async () => {
+      if (refreshBtn.disabled) return;
+
+      const lastSync = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+      const elapsed = Date.now() - lastSync;
+      if (elapsed < COOLDOWN_MS) {
+        startCooldownTimer(Math.ceil((COOLDOWN_MS - elapsed) / 1000));
+        return;
+      }
+
+      refreshBtn.disabled = true;
+      refreshBtn.classList.add('loading');
+      const iconSpan = refreshBtn.querySelector('.btn-refresh-icon');
+      const textSpan = refreshBtn.querySelector('.btn-refresh-text');
+      if (iconSpan) iconSpan.textContent = '🔄';
+      if (textSpan) textSpan.textContent = 'CHECKING FEEDS...';
+
+      showToast('📡 Connecting to official lottery data feeds (CA SuperLotto & Powerball)...', 'info', 0);
+
+      try {
+        const response = await fetch('api/refresh.php', {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+          cache: 'no-store'
+        });
+
+        localStorage.setItem(STORAGE_KEY, Date.now().toString());
+
+        if (response.status === 429) {
+          const errData = await response.json().catch(() => ({}));
+          const waitTime = errData.retry_after || 300;
+          showToast(`⚠️ Rate limit active. Please wait ${Math.ceil(waitTime / 60)} minutes before checking again.`, 'warning', 10000);
+          startCooldownTimer(60);
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(`Server returned HTTP ${response.status}`);
+        }
+
+        const res = await response.json();
+        if (!res.success) {
+          throw new Error(res.error || 'Sync request failed.');
+        }
+
+        // Apply updated data in-memory
+        if (res.data) {
+          window.LOTTO_DATA = res.data;
+          data = window.LOTTO_DATA;
+        }
+
+        updateHeaderBadges(res.last_checked);
+        renderAll();
+
+        if (res.updated) {
+          const newTotal = (res.new_draws?.superlotto || 0) + (res.new_draws?.powerball || 0);
+          showToast(`⚡ Matrix updated: ${newTotal} new verified draw(s) integrated! Frequencies & gaps recalculated.`, 'success', 9000);
+        } else {
+          showToast(`✓ Current matrix verified: ${res.message}`, 'info', 7000);
+        }
+
+        startCooldownTimer(60);
+      } catch (err) {
+        console.error('Lotto sync error:', err);
+        showToast(`❌ Connection error: ${err.message || 'Could not reach sync endpoint.'}`, 'error', 8000);
+        refreshBtn.disabled = false;
+        refreshBtn.classList.remove('loading');
+        if (iconSpan) iconSpan.textContent = '🔄';
+        if (textSpan) textSpan.textContent = 'SYNC LATEST DRAWS';
+      }
+    });
+
+    checkExistingCooldown();
   }
 
   function setupGameSwitcher() {

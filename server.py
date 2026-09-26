@@ -3,6 +3,8 @@ import os
 import sys
 import argparse
 import http.server
+import json
+import urllib.parse
 from functools import partial
 
 LOG_FILE = "/tmp/gemini_integrated_website.log"
@@ -13,6 +15,53 @@ class ArcadeHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Cache-Control", "no-cache")
         super().end_headers()
+
+    def do_OPTIONS(self):
+        if self.path.startswith("/lotto/api/refresh"):
+            self.send_response(200)
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Requested-With")
+            self.end_headers()
+            return
+        super().do_OPTIONS()
+
+    def do_GET(self):
+        if self.path.startswith("/lotto/api/refresh"):
+            self.handle_lotto_refresh()
+            return
+        super().do_GET()
+
+    def do_POST(self):
+        if self.path.startswith("/lotto/api/refresh"):
+            self.handle_lotto_refresh()
+            return
+        super().do_POST()
+
+    def handle_lotto_refresh(self):
+        parsed = urllib.parse.urlparse(self.path)
+        query = urllib.parse.parse_qs(parsed.query)
+        force = query.get("force", ["0"])[0] == "1"
+        client_ip = self.client_address[0] if self.client_address else "127.0.0.1"
+
+        try:
+            api_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lotto", "api")
+            if api_dir not in sys.path:
+                sys.path.insert(0, api_dir)
+            import refresh
+            result = refresh.refresh_lotto_analysis(force=force, client_ip=client_ip)
+            status_code = result.pop("status_code", 200)
+        except Exception as e:
+            status_code = 500
+            result = {"success": False, "error": f"Internal server error: {str(e)}"}
+
+        body = json.dumps(result, indent=2).encode("utf-8")
+        self.send_response(status_code)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+        self.end_headers()
+        self.wfile.write(body)
 
     def guess_type(self, path):
         # Ensure proper MIME types for wasm, apk, wheels, and ogg

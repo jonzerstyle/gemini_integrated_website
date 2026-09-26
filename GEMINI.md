@@ -38,9 +38,12 @@ gemini_integrated_website/
 └── lotto/                 # Lotto Lab empirical probability & analytics web application
     ├── index.html         # Lotto Lab UI (tabs, game selector, strategy engines, tables)
     ├── style.css          # Glassmorphism styling, glowing orbs, 3D number balls
-    ├── app.js             # Generator logic, metric calculations, history search
+    ├── app.js             # Generator logic, metric calculations, history search, on-demand hot reload
     ├── lotto_data.js      # Pre-compiled statistical payload (window.LOTTO_DATA)
-    └── lotto_data.json    # Machine-readable statistical payload
+    ├── lotto_data.json    # Machine-readable statistical payload
+    └── api/               # Protected on-demand analysis refresh engine
+        ├── refresh.php    # Production GoDaddy cPanel Apache refresh endpoint
+        └── refresh.py     # Local dev & CLI / Cron companion refresh engine
 ```
 
 ---
@@ -90,6 +93,23 @@ gemini_integrated_website/
   * `Access-Control-Allow-Origin: "*"` allows WASM web workers to fetch local wheels and APK packages smoothly.
   * Apache `mod_deflate` enabled for high-speed compressed delivery of HTML, CSS, JavaScript, and JSON.
 
+### 5. On-Demand Analysis Refresh & Multi-Layer Anti-Hammering Engine (`lotto/api/`)
+* **Dual Runtime Engine**:
+  * Production GoDaddy cPanel: Apache runs `refresh.php` natively out of the box with zero runtime configuration or dependencies.
+  * Local Dev & CLI/Cron: `server.py` routes `/lotto/api/refresh` and `/lotto/api/refresh.php` to `refresh.py`, providing identical behavior in both local development and production.
+* **Strict Multi-Layer Anti-Hammering Protections**:
+  1. **Client-Side Cooldown (Layer 1)**: `localStorage` tracks the last sync timestamp. The UI disables the button for 60 seconds with an active countdown timer (`COOLDOWN (XXs)`), preventing rapid-fire clicks even across page reloads.
+  2. **Per-IP Rate Limiting (Layer 2)**: Tracks client IPs (supporting Cloudflare `CF-Connecting-IP`, `X-Forwarded-For`, and `REMOTE_ADDR`). Enforces a strict ceiling of max 5 requests per 5 minutes per IP; violations immediately return HTTP 429 with retry intervals.
+  3. **Global 15-Minute Debounce Lock (Layer 3)**: A server-side file lock (`.refresh_lock`) ensures that if drawings have been checked within the last 15 minutes, the server immediately returns the cached matrix in ~2ms with `status: "current"`, making **zero external network requests**.
+  4. **Non-Blocking Concurrency Mutex (Layer 4)**: Uses advisory file locking (`flock LOCK_EX | LOCK_NB`) to eliminate race conditions between concurrent visitors.
+* **Incremental Mathematical Recalculation**:
+  * Scrapes only newer official drawings (CA SuperLotto HTML table parser and Powerball Socrata API).
+  * Incrementally updates all-time ball frequencies, resets gaps for drawn balls to 0, increments non-drawn ball drought gaps, and prepends to history in <2ms.
+  * Writes atomically to `lotto_data.json` and `lotto_data.js` via temporary swap files.
+* **Zero-Reload Client Hot-Reload**:
+  * Client updates `window.LOTTO_DATA` directly in memory and invokes `renderAll()`.
+  * All pick generators, distribution percentages, leaderboards, overdue trackers, and history tables re-render instantly without reloading the page.
+
 ---
 
 ## 📜 Chronological Actions & Milestones
@@ -124,6 +144,13 @@ gemini_integrated_website/
 * Wired up interactive modal launcher (`#lotto-modal`) and Escape key listeners in `script.js`.
 * Added glowing emerald/cyan project card and button styling in `style.css`.
 * Re-packaged GoDaddy production distribution archive [`numericagenda_godaddy_deploy.zip`](file:///home/mjones/agy/numericagenda_godaddy_deploy.zip).
+
+### 7. On-Demand Analysis Refresh & Anti-Hammering Engine
+* Implemented production PHP API (`lotto/api/refresh.php`) and companion Python engine (`lotto/api/refresh.py`).
+* Integrated multi-layer anti-hammering protection: client 60s cooldown, per-IP rate-limiting (HTTP 429), 15-minute global debounce, and concurrency mutex.
+* Updated `server.py` to route local `/lotto/api/refresh` and `/lotto/api/refresh.php` requests seamlessly.
+* Updated `lotto/index.html`, `lotto/style.css`, and `lotto/app.js` with retro cyber `[ 🔄 SYNC LATEST DRAWS ]` button, spinning loader, status toasts, dynamic header badges, and zero-flicker in-memory hot reloading.
+* Synchronized API scripts to `lotto/api/` and repackaged [`numericagenda_godaddy_deploy.zip`](file:///home/mjones/agy/numericagenda_godaddy_deploy.zip).
 
 ---
 

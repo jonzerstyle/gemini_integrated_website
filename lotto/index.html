@@ -40,7 +40,7 @@
           <span class="tab-icon">🌴</span>
           <div class="tab-text">
             <strong>CA SuperLotto Plus</strong>
-            <small>5 of 47 + 1 of 27 Mega (2,745 Draws)</small>
+            <small id="superlotto-tab-sub">5 of 47 + 1 of 27 Mega (2,745 Draws)</small>
           </div>
         </button>
 
@@ -48,7 +48,7 @@
           <span class="tab-icon">⚡</span>
           <div class="tab-text">
             <strong>Powerball</strong>
-            <small>5 of 69 + 1 of 26 Red (1,406 Draws)</small>
+            <small id="powerball-tab-sub">5 of 69 + 1 of 26 Red (1,406 Draws)</small>
           </div>
         </button>
       </div>
@@ -59,10 +59,17 @@
       <div class="intel-header">
         <div class="intel-title-wrap">
           <span class="crt-dot"></span>
-          <span class="intel-title">COMM-LINK // LAST FULL MATRIX ANALYSIS: 2026-09-25 00:02:18 PDT</span>
+          <span class="intel-title" id="matrix-timestamp">COMM-LINK // LAST FULL MATRIX ANALYSIS: 2026-09-25 00:02:18 PDT</span>
         </div>
-        <span class="intel-tag">4,151 DRAWS VERIFIED</span>
+        <div class="intel-actions">
+          <button type="button" id="refresh-analysis-btn" class="refresh-analysis-btn" title="Check official feeds for newly published draws">
+            <span class="btn-refresh-icon">🔄</span>
+            <span class="btn-refresh-text">SYNC LATEST DRAWS</span>
+          </button>
+          <span class="intel-tag" id="verified-draws-tag">4,151 DRAWS VERIFIED</span>
+        </div>
       </div>
+      <div id="refresh-status-toast" class="refresh-status-toast" style="display: none;"></div>
       <div class="intel-body">
         <p class="intel-mission">
           <strong>🕹️ SYSTEM BRIEFING &amp; MATHEMATICAL LOGIC:</strong>
