@@ -241,5 +241,137 @@ document.addEventListener('DOMContentLoaded', () => {
     recsTitle.textContent = `RECOMMENDED PICKS // LAST MATRIX RUN: ${displayTime}`;
   }
 
+  function setupPortalSyncButton() {
+    const portalSyncBtn = document.getElementById('portal-sync-btn');
+    const portalToast = document.getElementById('portal-sync-toast');
+    const recsTitle = document.getElementById('recs-card-title');
+    if (!portalSyncBtn) return;
+
+    const COOLDOWN_MS = 60000;
+    const STORAGE_KEY = 'lotto_lab_last_sync';
+
+    let toastTimer = null;
+    function showPortalToast(message, type = 'info', duration = 7000) {
+      if (!portalToast) return;
+      if (toastTimer) clearTimeout(toastTimer);
+      portalToast.className = `portal-sync-toast ${type}`;
+      portalToast.innerHTML = `
+        <span>${message}</span>
+        <button type="button" style="background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;font-weight:bold;margin-left:10px;" onclick="this.parentElement.style.display='none'">✕</button>
+      `;
+      portalToast.style.display = 'flex';
+      if (duration > 0) {
+        toastTimer = setTimeout(() => {
+          portalToast.style.display = 'none';
+        }, duration);
+      }
+    }
+
+    let cooldownInterval = null;
+    function startPortalCooldown(seconds) {
+      if (cooldownInterval) clearInterval(cooldownInterval);
+      portalSyncBtn.disabled = true;
+      portalSyncBtn.classList.remove('loading');
+
+      const iconSpan = portalSyncBtn.querySelector('.portal-sync-icon');
+      const textSpan = portalSyncBtn.querySelector('.portal-sync-text');
+      if (iconSpan) iconSpan.textContent = '⏳';
+
+      let remaining = seconds;
+      if (textSpan) textSpan.textContent = `COOLDOWN (${remaining}s)`;
+
+      cooldownInterval = setInterval(() => {
+        remaining--;
+        if (remaining <= 0) {
+          clearInterval(cooldownInterval);
+          cooldownInterval = null;
+          portalSyncBtn.disabled = false;
+          if (iconSpan) iconSpan.textContent = '🔄';
+          if (textSpan) textSpan.textContent = 'SYNC LATEST DRAWS';
+        } else {
+          if (textSpan) textSpan.textContent = `COOLDOWN (${remaining}s)`;
+        }
+      }, 1000);
+    }
+
+    function checkExistingCooldown() {
+      const lastSync = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+      const elapsed = Date.now() - lastSync;
+      if (elapsed < COOLDOWN_MS) {
+        startPortalCooldown(Math.ceil((COOLDOWN_MS - elapsed) / 1000));
+      }
+    }
+
+    portalSyncBtn.addEventListener('click', async () => {
+      if (portalSyncBtn.disabled) return;
+
+      const lastSync = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+      const elapsed = Date.now() - lastSync;
+      if (elapsed < COOLDOWN_MS) {
+        startPortalCooldown(Math.ceil((COOLDOWN_MS - elapsed) / 1000));
+        return;
+      }
+
+      portalSyncBtn.disabled = true;
+      portalSyncBtn.classList.add('loading');
+      const iconSpan = portalSyncBtn.querySelector('.portal-sync-icon');
+      const textSpan = portalSyncBtn.querySelector('.portal-sync-text');
+      if (iconSpan) iconSpan.textContent = '🔄';
+      if (textSpan) textSpan.textContent = 'CHECKING FEEDS...';
+
+      showPortalToast('📡 Connecting to official lottery feeds...', 'info', 0);
+
+      try {
+        const response = await fetch('lotto/api/refresh.php', {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+          cache: 'no-store'
+        });
+
+        localStorage.setItem(STORAGE_KEY, Date.now().toString());
+
+        if (response.status === 429) {
+          const errData = await response.json().catch(() => ({}));
+          const waitTime = errData.retry_after || 300;
+          showPortalToast(`⚠️ Rate limit active. Please wait ${Math.ceil(waitTime / 60)} minutes.`, 'warning', 8000);
+          startPortalCooldown(60);
+          return;
+        }
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const res = await response.json();
+        if (!res.success) throw new Error(res.error || 'Sync request failed.');
+
+        if (res.last_checked) {
+          localStorage.setItem('lotto_lab_last_sync_timestamp', res.last_checked);
+        }
+
+        if (recsTitle) {
+          recsTitle.textContent = `RECOMMENDED PICKS // LAST MATRIX RUN: ${res.last_checked || formatPacificTime()}`;
+        }
+
+        if (res.updated) {
+          const newTotal = (res.new_draws?.superlotto || 0) + (res.new_draws?.powerball || 0);
+          showPortalToast(`⚡ Matrix updated: ${newTotal} new draw(s) integrated!`, 'success', 8000);
+        } else {
+          showPortalToast(`✓ Current matrix verified: ${res.message}`, 'info', 6000);
+        }
+
+        startPortalCooldown(60);
+      } catch (err) {
+        console.error('Portal sync error:', err);
+        showPortalToast(`❌ Sync error: ${err.message || 'Could not reach sync endpoint.'}`, 'error', 7000);
+        portalSyncBtn.disabled = false;
+        portalSyncBtn.classList.remove('loading');
+        if (iconSpan) iconSpan.textContent = '🔄';
+        if (textSpan) textSpan.textContent = 'SYNC LATEST DRAWS';
+      }
+    });
+
+    checkExistingCooldown();
+  }
+
   updatePortalLottoCard();
+  setupPortalSyncButton();
 });

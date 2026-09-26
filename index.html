@@ -130,9 +130,16 @@
         <!-- 80s Retro Arcade Picks & Analysis Timestamp -->
         <div class="lotto-recs-box">
           <div class="recs-header">
-            <span class="recs-blinker"></span>
-            <span class="recs-title" id="recs-card-title">RECOMMENDED PICKS // LAST MATRIX RUN: 2026-09-25 07:55 PM PDT</span>
+            <div class="recs-title-wrap">
+              <span class="recs-blinker"></span>
+              <span class="recs-title" id="recs-card-title">RECOMMENDED PICKS // LAST MATRIX RUN: 2026-09-25 07:55 PM PDT</span>
+            </div>
+            <button type="button" id="portal-sync-btn" class="portal-sync-btn" title="Check official feeds for latest lottery drawings">
+              <span class="portal-sync-icon">🔄</span>
+              <span class="portal-sync-text">SYNC LATEST DRAWS</span>
+            </button>
           </div>
+          <div id="portal-sync-toast" class="portal-sync-toast" style="display: none;"></div>
           <div class="recs-grid">
             <div class="rec-item">
               <div class="rec-game-tag">🌴 CA SUPERLOTTO PLUS</div>
