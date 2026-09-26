@@ -12,6 +12,7 @@
 
 error_reporting(0);
 ini_set('display_errors', '0');
+date_default_timezone_set('America/Los_Angeles');
 
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
@@ -88,7 +89,7 @@ if (!$is_force && file_exists($LOCK_FILE) && ($now - filemtime($LOCK_FILE) < $de
             'updated' => false,
             'status' => 'current',
             'message' => 'Analysis matrix is fully up to date (verified within last 15 minutes).',
-            'last_checked' => date('Y-m-d H:i:s T', filemtime($LOCK_FILE)),
+            'last_checked' => date('Y-m-d g:i A T', filemtime($LOCK_FILE)),
             'total_draws' => [
                 'superlotto' => $existing['superlotto']['total_draws'],
                 'powerball' => $existing['powerball']['total_draws']
@@ -337,7 +338,7 @@ $response = [
     'message' => $any_updated 
         ? "Latest official draw data integrated successfully (" . ($new_draws_info['superlotto'] + $new_draws_info['powerball']) . " new draw(s) added)."
         : "Analysis matrix is fully up to date. Verified through latest drawings.",
-    'last_checked' => date('Y-m-d H:i:s T', $now),
+    'last_checked' => date('Y-m-d g:i A T', $now),
     'new_draws' => $new_draws_info,
     'total_draws' => [
         'superlotto' => $data['superlotto']['total_draws'],

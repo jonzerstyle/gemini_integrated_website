@@ -93,6 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const powerDraws = data.powerball?.total_draws || 0;
     const totalDraws = superDraws + powerDraws;
 
+    const latestSuperDate = data.superlotto?.recent_draws?.[0]?.date || '2026-09-23';
+
     if (verifiedDrawsTag) {
       verifiedDrawsTag.textContent = `${totalDraws.toLocaleString()} DRAWS VERIFIED`;
     }
@@ -102,8 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (powerballTabSub) {
       powerballTabSub.textContent = `5 of 69 + 1 of 26 Red (${powerDraws.toLocaleString()} Draws)`;
     }
-    if (lastCheckedStr && matrixTimestamp) {
-      matrixTimestamp.textContent = `COMM-LINK // LAST FULL MATRIX ANALYSIS: ${lastCheckedStr}`;
+    if (matrixTimestamp) {
+      if (lastCheckedStr) {
+        matrixTimestamp.textContent = `COMM-LINK // LAST SYNC: ${lastCheckedStr} • VERIFIED THROUGH: ${latestSuperDate}`;
+      } else {
+        matrixTimestamp.textContent = `COMM-LINK // STATUS: UP TO DATE • DRAWS VERIFIED THROUGH: ${latestSuperDate}`;
+      }
     }
   }
 

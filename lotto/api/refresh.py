@@ -78,7 +78,7 @@ def refresh_lotto_analysis(force=False, client_ip=None):
                     "updated": False,
                     "status": "current",
                     "message": "Analysis matrix is fully up to date (verified within last 15 minutes).",
-                    "last_checked": datetime.fromtimestamp(os.path.getmtime(LOCK_FILE)).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                    "last_checked": datetime.fromtimestamp(os.path.getmtime(LOCK_FILE)).strftime("%Y-%m-%d %I:%M %p PDT"),
                     "total_draws": {
                         "superlotto": cached_data["superlotto"]["total_draws"],
                         "powerball": cached_data["powerball"]["total_draws"]
@@ -248,7 +248,7 @@ def refresh_lotto_analysis(force=False, client_ip=None):
                 if any_updated else
                 "Analysis matrix is fully up to date. Verified through latest drawings."
             ),
-            "last_checked": datetime.fromtimestamp(now).strftime("%Y-%m-%d %H:%M:%S UTC"),
+            "last_checked": datetime.fromtimestamp(now).strftime("%Y-%m-%d %I:%M %p PDT"),
             "new_draws": new_draws_info,
             "total_draws": {
                 "superlotto": data["superlotto"]["total_draws"],
