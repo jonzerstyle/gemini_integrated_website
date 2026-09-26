@@ -152,6 +152,14 @@ gemini_integrated_website/
 * Updated `lotto/index.html`, `lotto/style.css`, and `lotto/app.js` with retro cyber `[ 🔄 SYNC LATEST DRAWS ]` button, spinning loader, status toasts, dynamic header badges, and zero-flicker in-memory hot reloading.
 * Synchronized API scripts to `lotto/api/` and repackaged [`numericagenda_godaddy_deploy.zip`](file:///home/mjones/agy/numericagenda_godaddy_deploy.zip).
 
+### 8. Cache-Busting, Dual Sync Buttons, and Popup Resilience
+* Added dual `[ 🔄 SYNC LATEST DRAWS ]` triggers: one on the homepage card header (`#portal-sync-btn`), one in Lotto Lab header, and one directly beside the `[ 🎲 Generate New Line ]` action bar (`#refresh-analysis-btn-generator`).
+* Linked dynamic 12-hour AM/PM Pacific timestamp formatting across both tabs and localStorage (`lotto_lab_last_sync_timestamp`).
+* Solved Cloudflare 4-hour edge caching by adding version query parameters (`?v=2.2`) to all CSS/JS tags.
+* Added Apache `.htaccess` directives for HTML no-cache headers and HTTPS trailing slash rewriting.
+* Added popup-blocker resilient click handler for `#open-lotto-tab-btn` and expanded iframe sandbox permissions.
+* Re-packaged fresh GoDaddy distribution archive [`numericagenda_godaddy_deploy.zip`](file:///home/mjones/agy/numericagenda_godaddy_deploy.zip).
+
 ---
 
 ## 🛠️ Operational Commands & Local Testing
@@ -163,6 +171,7 @@ python3 server.py --port 8080
 ```
 * **Portal URL**: [http://localhost:8080/](http://localhost:8080/)
 * **Direct Arcade URL**: [http://localhost:8080/pyzerk/](http://localhost:8080/pyzerk/)
+* **Direct Lotto Lab URL**: [http://localhost:8080/lotto/](http://localhost:8080/lotto/)
 
 ### Re-package Deployment Zip
 ```bash
